@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1 align="center">5792 taking 10:30 Class</h1>
+<a href="{{ url_for('upload')}}">Home</a>
+<h3>Welcome {{ username }}</h3><br/>
+
+<table>
+{% set i=0 %}
+{% for data in datas %}
+    {% if(i%5==0)%}
+
+    <tr><td><img alt="sample" style="width:304px;height:228px;" src="data:image/png;base64,{{data['image']}}">'</br>
+        {% for comments in data['commentlist'] %}
+        {{ comments['username'] }}:{{ comments['comment']}}
+            {% if(username == comments['username']) %}
+            <a href="{{ url_for('deletecomment',id=data['_id'],username=comments['username'],comment=comments['comment'])}}">Delete Comment</a><br>
+            {% else %}
+            <br>
+            {% endif %}
+        {% endfor %}
+    <form action="/postcomment" method=post enctype=multipart/form-data>
+    Enter Comment:  <input type="text" name="mycomment" maxlength="50">
+                    <input type="hidden" name="imageid" value={{ data['_id'] }}>
+                    <input type="submit" name='submit' value="Post Comment">
+    </form></td>
+
+    {% elif(i%5==4) %}
+
+    <td><img alt="sample" style="width:304px;height:228px;" src="data:image/png;base64,{{data['image']}}">'</br>
+        {% for comments in data['commentlist'] %}
+        {{ comments['username'] }}:{{ comments['comment'] }}
+            {% if(username == comments['username']) %}
+            <a href="{{ url_for('deletecomment',id=data['_id'],username=comments['username'],comment=comments['comment'])}}">Delete Comment</a><br>
+            {% else %}
+            <br>
+            {% endif %}
+        {% endfor %}
+    <form action="/postcomment" method=post enctype=multipart/form-data>
+    Enter Comment:  <input type="text" name="mycomment" maxlength="50">
+                    <input type="hidden" name="imageid" value={{ data['_id'] }}>
+                    <input type="submit" name='submit' value="Post Comment"></form></td></tr>
+    {% else %}
+
+    <td><img alt="sample" style="width:304px;height:228px;" src="data:image/png;base64,{{data['image']}}">'</br>
+        {% for comments in data['commentlist'] %}
+        {{ comments['username'] }}:{{ comments['comment'] }}
+            {% if(username == comments['username']) %}
+            <a href="{{ url_for('deletecomment',id=data['_id'],username=comments['username'],comment=comments['comment'])}}">Delete Comment</a><br>
+            {% else %}
+            <br>
+            {% endif %}
+        {% endfor %}
+    <form action="/postcomment" method=post enctype=multipart/form-data>
+    Enter Comment:  <input type="text" name="mycomment" maxlength="50">
+                    <input type="hidden" name="imageid" value={{ data['_id'] }}>
+                    <input type="submit" name='submit' value="Post Comment"></form></td>
+    {% endif %}
+    {% set i = i + 1 %}
+{% endfor %}
+</table>
+</body>
+</html>
